@@ -9,7 +9,15 @@ module.exports = ({ env }) => [
   {
     name: "strapi::cors",
     config: {
-      origin: env("CORS_ORIGINS", "*"),
+      origin: (ctx) => {
+        const origin = ctx.request.header.origin;
+        const allowedOrigins = env("CORS_ORIGINS").split(",");
+        if (allowedOrigins.includes(origin)) {
+          return origin;
+        }
+
+        return allowedOrigins[0];
+      },
     },
   },
   {
