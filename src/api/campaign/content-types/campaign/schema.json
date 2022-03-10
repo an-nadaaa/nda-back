@@ -161,6 +161,21 @@
       },
       "type": "string",
       "required": true
+    },
+    "environment": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "development",
+        "staging",
+        "production"
+      ],
+      "required": true,
+      "default": "development"
     }
   }
 }

@@ -14,6 +14,8 @@
     "@strapi/plugin-i18n": "4.1.0",
     "@strapi/plugin-users-permissions": "4.1.0",
     "@strapi/strapi": "4.1.0",
+    "axios": "0.26.0",
+    "dotenv": "16.0.0",
     "pg": "8.7.3",
     "strapi-provider-upload-aws-s3-advanced": "^4.0.5"
   },
