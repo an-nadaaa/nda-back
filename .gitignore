@@ -111,5 +111,5 @@ license.txt
 exports
 *.cache
 # unignore build files as building under 1GB of ram is not possible
-# build
+build
 .strapi-updater.json

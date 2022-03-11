@@ -13,6 +13,7 @@
     "build"
   ],
   "devDependencies": {
+    "esbuild-loader": "^2.18.0",
     "pre-commit": "^1.2.2"
   },
   "dependencies": {
