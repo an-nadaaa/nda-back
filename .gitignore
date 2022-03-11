@@ -112,4 +112,8 @@ exports
 *.cache
 # unignore build files as building under 1GB of ram is not possible
 build
+# ignoring dockerization of the project
+Dockerfile
+.dockerignore
+makefile
 .strapi-updater.json
