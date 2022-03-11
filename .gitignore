@@ -107,6 +107,7 @@ coverage
 ############################
 
 .env
+.dokku.env
 license.txt
 exports
 *.cache
