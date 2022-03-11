@@ -110,5 +110,6 @@ coverage
 license.txt
 exports
 *.cache
-build
+# unignore build files as building under 1GB of ram is not possible
+# build
 .strapi-updater.json
