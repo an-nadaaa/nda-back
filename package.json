@@ -9,7 +9,12 @@
     "build": "strapi build",
     "strapi": "strapi"
   },
-  "devDependencies": {},
+  "pre-commit": [
+    "build"
+  ],
+  "devDependencies": {
+    "pre-commit": "^1.2.2"
+  },
   "dependencies": {
     "@strapi/plugin-i18n": "4.1.0",
     "@strapi/plugin-users-permissions": "4.1.0",
