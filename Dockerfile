@@ -37,7 +37,7 @@ USER nonroot
 # WORKDIR /home/node/code
 
 # copy the build from the previous image
-COPY --from=Build --chown=node:nonroot /usr/src/app/ ./app
+COPY --from=Build --chown=nonroot:nonroot /usr/src/app/ ./app
 WORKDIR /app
 
 # set environemnt variables
