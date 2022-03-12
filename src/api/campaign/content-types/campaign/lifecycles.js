@@ -4,6 +4,10 @@ require("dotenv").config();
 const STRIPE_GENERAL_PRODUCT_ID_DEV = process.env.STRIPE_GENERAL_PRODUCT_ID_DEV;
 const STRIPE_GENERAL_PRODUCT_ID_PROD =
   process.env.STRIPE_GENERAL_PRODUCT_ID_PROD;
+const FUNCTION_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? process.env.FUNCTIONS_BASE_URL
+    : "http://localhost:8888/.netlify/functions";
 
 module.exports = {
   async beforeCreate(event) {
@@ -30,7 +34,7 @@ module.exports = {
     // delete the stripe product for development environment
     if (event.result.product !== STRIPE_GENERAL_PRODUCT_ID_DEV) {
       axios({
-        url: `${process.env.FUNCTIONS_BASE_URL}/products-handler`,
+        url: `${FUNCTION_BASE_URL}/products-handler`,
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
