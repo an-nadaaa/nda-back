@@ -37,15 +37,14 @@ USER nonroot
 # WORKDIR /home/node/code
 
 # copy the build from the previous image
-COPY --from=Build --chown=node:node /usr/src/app/ ./app
+COPY --from=Build --chown=node:nonroot /usr/src/app/ ./app
 WORKDIR /app
 
 # set environemnt variables
 ENV NODE_ENV=production
 
 # expose the port the app is listening on
-EXPOSE 1337
-EXPOSE 5432
+EXPOSE 5000
 
 CMD [ "node_modules/.bin/strapi", "start" ]
 

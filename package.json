@@ -2,7 +2,7 @@
   "name": "nda-back",
   "private": true,
   "version": "0.1.0",
-  "description": "A Strapi application",
+  "description": "An-nadaa backend api",
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
@@ -10,9 +10,6 @@
     "strapi": "strapi",
     "deploy": "git push dokku master:master"
   },
-  "pre-commit": [
-    "build"
-  ],
   "devDependencies": {},
   "dependencies": {
     "@strapi/plugin-i18n": "4.1.3",
