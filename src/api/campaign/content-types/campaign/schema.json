@@ -61,16 +61,7 @@
       "type": "string",
       "unique": false,
       "required": true,
-      "default": "prod_L10916LiODpbnv"
-    },
-    "tags": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "json",
-      "required": true
+      "default": "PRODUCT_WILL_BE_CREATED"
     },
     "cover": {
       "type": "media",
@@ -153,15 +144,6 @@
       "min": 0,
       "default": 0
     },
-    "nature": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "string",
-      "required": true
-    },
     "environment": {
       "pluginOptions": {
         "i18n": {
@@ -176,6 +158,18 @@
       ],
       "required": true,
       "default": "development"
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "inversedBy": "campaigns"
+    },
+    "natures": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::nature.nature",
+      "inversedBy": "campaigns"
     }
   }
 }
