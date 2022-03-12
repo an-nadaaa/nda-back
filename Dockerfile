@@ -22,6 +22,10 @@ ENV NODE_ENV=production
 # set the databse url or the build will fail
 ARG DATABASE_URL
 ENV DATABASE_URL=${DATABASE_URL}
+
+ARG PUBLIC_ADMIN_URL
+ENV PUBLIC_ADMIN_URL=${PUBLIC_ADMIN_URL}
+
 # run the build script
 RUN yarn build
 
