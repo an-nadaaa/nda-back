@@ -45,6 +45,7 @@ ENV NODE_ENV=production
 
 # expose the port the app is listening on
 EXPOSE 5000
+EXPOSE 5432
 
 CMD [ "node_modules/.bin/strapi", "start" ]
 
