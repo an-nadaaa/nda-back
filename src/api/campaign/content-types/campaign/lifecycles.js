@@ -1,5 +1,6 @@
 const generateStripeProductId = require("../../../../utils/generateStripeProductId");
 require("dotenv").config();
+const { default: axios } = require("axios");
 
 const STRIPE_GENERAL_PRODUCT_ID_DEV = process.env.STRIPE_GENERAL_PRODUCT_ID_DEV;
 const STRIPE_GENERAL_PRODUCT_ID_PROD =
@@ -11,7 +12,6 @@ const FUNCTION_BASE_URL =
 
 module.exports = {
   async beforeCreate(event) {
-    console.log("beforeCreate", event.params.data.cover);
     const { data } = event.params;
     if (data.cover) {
       const { url } = await strapi.plugins.upload.services.upload.findOne(
