@@ -11,10 +11,20 @@ const FUNCTION_BASE_URL =
 
 module.exports = {
   async beforeCreate(event) {
+    console.log("beforeCreate", event.params.data.cover);
     const { data } = event.params;
-
-    // generate a stripe product and replace the default product property with the stripe product id
-    event.params.data.product = await generateStripeProductId(data);
+    if (data.cover) {
+      const { url } = await strapi.plugins.upload.services.upload.findOne(
+        data.cover
+      );
+      event.params.data.product = await generateStripeProductId(data, url);
+    } else {
+      // generate a stripe product and replace the default product property with the stripe product id
+      event.params.data.product = await generateStripeProductId(
+        data,
+        undefined
+      );
+    }
   },
 
   async beforeUpdate(event) {
@@ -25,15 +35,23 @@ module.exports = {
       data.product === STRIPE_GENERAL_PRODUCT_ID_DEV ||
       data.product === STRIPE_GENERAL_PRODUCT_ID_PROD
     ) {
-      const id = await generateStripeProductId(data);
+      let id;
+      if (data.cover) {
+        const { url } = await strapi.plugins.upload.services.upload.findOne(
+          data.cover
+        );
+        id = await generateStripeProductId(data, url);
+      } else {
+        id = await generateStripeProductId(data, undefined);
+      }
       event.params.data.product = id;
     }
   },
 
-  afterDelete(event) {
+  async afterDelete(event) {
     // delete the stripe product for development environment
     if (event.result.product !== STRIPE_GENERAL_PRODUCT_ID_DEV) {
-      axios({
+      await axios({
         url: `${FUNCTION_BASE_URL}/products-handler`,
         method: "DELETE",
         headers: {

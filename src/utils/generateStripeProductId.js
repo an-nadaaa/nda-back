@@ -6,7 +6,10 @@ const FUNCTIONS_BASE_URL =
     ? process.env.FUNCTIONS_BASE_URL
     : "http://localhost:8888/.netlify/functions";
 // this function is used to generate a stripe product and return it's id
-module.exports = async (entity) => {
+module.exports = async (entity, url) => {
+  if (url) {
+    entity.cover = url;
+  }
   const { data } = await axios({
     url: `${FUNCTIONS_BASE_URL}/products-handler`,
     method: "POST",
