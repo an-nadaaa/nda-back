@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_causes_impacts",
+  "info": {
+    "displayName": "impact",
+    "icon": "crosshairs"
+  },
+  "options": {},
+  "attributes": {
+    "value": {
+      "type": "integer"
+    },
+    "of": {
+      "type": "string"
+    }
+  }
+}

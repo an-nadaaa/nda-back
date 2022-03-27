@@ -30,6 +30,12 @@
       "relation": "manyToMany",
       "target": "api::campaign.campaign",
       "mappedBy": "natures"
+    },
+    "causes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cause.cause",
+      "mappedBy": "nature"
     }
   }
 }

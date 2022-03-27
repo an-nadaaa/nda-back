@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_causes_full_donations",
+  "info": {
+    "displayName": "Full donation",
+    "icon": "battery-full",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "cost": {
+      "type": "float",
+      "required": true,
+      "default": 1
+    },
+    "value": {
+      "type": "integer",
+      "default": 1,
+      "required": true
+    },
+    "subject": {
+      "type": "string",
+      "required": true
+    },
+    "action": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

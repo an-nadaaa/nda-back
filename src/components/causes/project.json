@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_causes_projects",
+  "info": {
+    "displayName": "Project",
+    "icon": "hammer",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "goal": {
+      "type": "float"
+    },
+    "raised": {
+      "type": "float",
+      "default": 0
+    },
+    "impact": {
+      "type": "component",
+      "repeatable": true,
+      "component": "causes.impact"
+    },
+    "donation": {
+      "type": "component",
+      "repeatable": false,
+      "component": "causes.full-donation"
+    }
+  }
+}

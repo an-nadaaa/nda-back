@@ -30,6 +30,12 @@
       "relation": "manyToMany",
       "target": "api::campaign.campaign",
       "mappedBy": "tags"
+    },
+    "causes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::cause.cause",
+      "mappedBy": "tags"
     }
   }
 }

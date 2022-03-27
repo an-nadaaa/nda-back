@@ -170,6 +170,14 @@
       "relation": "manyToMany",
       "target": "api::nature.nature",
       "inversedBy": "campaigns"
+    },
+    "video": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "type": "string"
     }
   }
 }
