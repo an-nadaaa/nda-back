@@ -2,7 +2,13 @@ module.exports = ({ env }) => [
   "strapi::errors",
   "strapi::logger",
   "strapi::query",
-  "strapi::body",
+  {
+    name: "strapi::body",
+    config: {
+      includeUnparsed: true,
+    },
+  },
+  "global::stripe",
   "strapi::session",
   "strapi::favicon",
   "strapi::public",
@@ -11,12 +17,13 @@ module.exports = ({ env }) => [
     config: {
       origin: (ctx) => {
         const origin = ctx.request.header.origin;
-        const allowedOrigins = env("CORS_ORIGINS").split(",");
-        if (allowedOrigins.includes(origin)) {
-          return origin;
-        }
+        // const allowedOrigins = env("CORS_ORIGINS").split(",");
+        // if (allowedOrigins.includes(origin)) {
+        //   return origin;
+        // }
 
-        return allowedOrigins[0];
+        // return allowedOrigins[0];
+        return origin;
       },
     },
   },
