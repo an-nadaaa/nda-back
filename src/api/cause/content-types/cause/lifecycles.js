@@ -111,14 +111,26 @@ module.exports = {
         }
       }
     }
-    await notifyEditorialChannel(event);
+    try {
+      await notifyEditorialChannel(event);
+    } catch (error) {
+      strapi.log.error(error);
+    }
   },
 
   async afterCreate(event) {
-    await notifyEditorialChannel(event);
+    try {
+      await notifyEditorialChannel(event);
+    } catch (error) {
+      strapi.log.error(error);
+    }
   },
 
   async afterUpdate(event) {
-    await notifyEditorialChannel(event);
+    try {
+      await notifyEditorialChannel(event);
+    } catch (error) {
+      strapi.log.error(error);
+    }
   },
 };
