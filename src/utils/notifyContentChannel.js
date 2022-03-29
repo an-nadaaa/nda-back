@@ -1,24 +1,21 @@
 const sendToTelegram = require("./sendMessageToTelegram");
 
 module.exports = async (event) => {
-  console.debug({ event });
-  console.debug(event.params);
-  console.debug(event.params.data);
   const unparsed = Symbol.for("unparsedBody");
   let message, updatedBy, ids, entity;
-  if (event.params.data) {
-    entity = event.params.data;
-    entity = await strapi.db.query("api::cause.cause").findOne({
-      where: {
-        id: entity.id,
-      },
-      populate: ["base"],
-    });
-  } else {
+  console.debug(event.result);
+  if (!event.params.data) {
     ids = event.params.where.$and[1].$and[0].id.$in;
   }
   switch (event.action) {
     case "afterCreate":
+      entity = event.result;
+      entity = await strapi.db.query("api::cause.cause").findOne({
+        where: {
+          id: entity.id,
+        },
+        populate: ["base"],
+      });
       updatedBy = await strapi.db.query("admin::user").findOne({
         where: {
           id: entity.updatedBy,
@@ -33,7 +30,8 @@ Description: ${entity.base.description}
             `;
       break;
     case "afterUpdate":
-      if (entity) {
+      if (event.params.data) {
+        entity = JSON.parse(event.params.data[unparsed]);
         updatedBy = await strapi.db.query("admin::user").findOne({
           where: {
             id: entity.updatedBy,
@@ -62,7 +60,8 @@ Description: ${entity.base.description}
       }
       break;
     case "afterDelete":
-      if (entity) {
+      if (event.params.data) {
+        entity = JSON.parse(event.params.data[unparsed]);
         updatedBy = await strapi.db.query("admin::user").findOne({
           where: {
             id: entity.updatedBy,
