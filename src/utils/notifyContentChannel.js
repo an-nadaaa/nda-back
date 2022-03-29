@@ -3,19 +3,12 @@ const sendToTelegram = require("./sendMessageToTelegram");
 module.exports = async (event) => {
   const unparsed = Symbol.for("unparsedBody");
   let message, updatedBy, ids, entity;
-  console.debug(event.result);
   if (!event.params.data) {
     ids = event.params.where.$and[1].$and[0].id.$in;
   }
   switch (event.action) {
     case "afterCreate":
       entity = event.result;
-      entity = await strapi.db.query("api::cause.cause").findOne({
-        where: {
-          id: entity.id,
-        },
-        populate: ["base"],
-      });
       updatedBy = await strapi.db.query("admin::user").findOne({
         where: {
           id: entity.updatedBy,
