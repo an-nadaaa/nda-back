@@ -32,6 +32,7 @@ module.exports = {
       } catch (error) {
         // throw strapi error
         strapi.log.error(error);
+        strapi.error("Error creating Stripe product", error);
       }
     } else {
       // generate a stripe product and replace the default product property with the stripe product id
@@ -45,6 +46,7 @@ module.exports = {
         );
       } catch (error) {
         strapi.log.error(error);
+        strapi.error("Error creating Stripe product", error);
       }
     }
   },
