@@ -4,7 +4,13 @@ module.exports = async (event) => {
   const unparsed = Symbol.for("unparsedBody");
   let message, updatedBy, ids, entity;
   if (event.params.data) {
-    entity = JSON.parse(event.params.data[unparsed]);
+    entity = event.params.data;
+    entity = await strapi.db.query("api::cause.cause").findOne({
+      where: {
+        id: entity.id,
+      },
+      populate: ["base"],
+    });
   } else {
     ids = event.params.where.$and[1].$and[0].id.$in;
   }
