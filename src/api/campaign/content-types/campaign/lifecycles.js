@@ -50,15 +50,38 @@ module.exports = {
 
   async afterDelete(event) {
     // delete the stripe product for development environment
-    if (event.result.product !== STRIPE_GENERAL_PRODUCT_ID_DEV) {
-      await axios({
-        url: `${FUNCTION_BASE_URL}/products-handler`,
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: JSON.stringify(event.result),
-      });
+    if (event.params.data) {
+      if (event.params.data.product !== STRIPE_GENERAL_PRODUCT_ID_DEV) {
+        await axios({
+          url: `${FUNCTION_BASE_URL}/products-handler`,
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: JSON.stringify(event.params.data),
+        });
+      }
+    } else if (event.params.where.$and) {
+      for (
+        let i = 0;
+        i < event.params.where.$and[1].$and[0].id.$in.length;
+        i++
+      ) {
+        const id = event.params.where.$and[1].$and[0].id.$in[i];
+        const entity = await strapi.db
+          .query(`${event.model.uid}`)
+          .findOne({ id });
+        if (entity.product !== STRIPE_GENERAL_PRODUCT_ID_DEV) {
+          await axios({
+            url: `${FUNCTION_BASE_URL}/products-handler`,
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            data: JSON.stringify(entity),
+          });
+        }
+      }
     }
   },
 };
