@@ -21,22 +21,31 @@ module.exports = {
       const { url } = await strapi.plugins.upload.services.upload.findOne(
         data.cover
       );
-      event.params.data.product = await generateStripeProductId(
-        title,
-        description,
-        url,
-        data.product,
-        data.environment
-      );
+      try {
+        event.params.data.product = await generateStripeProductId(
+          title,
+          description,
+          url,
+          data.product,
+          data.environment
+        );
+      } catch (error) {
+        // throw strapi error
+        strapi.log.error(error);
+      }
     } else {
       // generate a stripe product and replace the default product property with the stripe product id
-      event.params.data.product = await generateStripeProductId(
-        title,
-        description,
-        undefined,
-        data.product,
-        data.environment
-      );
+      try {
+        event.params.data.product = await generateStripeProductId(
+          title,
+          description,
+          undefined,
+          data.product,
+          data.environment
+        );
+      } catch (error) {
+        strapi.log.error(error);
+      }
     }
   },
 
@@ -56,21 +65,29 @@ module.exports = {
         const { url } = await strapi.plugins.upload.services.upload.findOne(
           data.cover
         );
-        id = await generateStripeProductId(
-          title,
-          description,
-          url,
-          data.product,
-          data.environment
-        );
+        try {
+          id = await generateStripeProductId(
+            title,
+            description,
+            url,
+            data.product,
+            data.environment
+          );
+        } catch (error) {
+          strapi.log.error(error);
+        }
       } else {
-        id = await generateStripeProductId(
-          title,
-          description,
-          undefined,
-          data.product,
-          data.environment
-        );
+        try {
+          id = await generateStripeProductId(
+            title,
+            description,
+            undefined,
+            data.product,
+            data.environment
+          );
+        } catch (error) {
+          strapi.log.error(error);
+        }
       }
       event.params.data.product = id;
     }
@@ -80,14 +97,18 @@ module.exports = {
     // delete the stripe product for development environment
     if (event.params.data) {
       if (event.params.data.product !== STRIPE_GENERAL_PRODUCT_ID_DEV) {
-        await axios({
-          url: `${FUNCTION_BASE_URL}/products-handler`,
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          data: JSON.stringify(event.params.data),
-        });
+        try {
+          await axios({
+            url: `${FUNCTION_BASE_URL}/products-handler`,
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            data: JSON.stringify(event.params.data),
+          });
+        } catch (error) {
+          strapi.log.error(error);
+        }
       }
     } else if (event.params.where.$and) {
       for (
@@ -100,14 +121,18 @@ module.exports = {
           .query(`${event.model.uid}`)
           .findOne({ id });
         if (entity.product !== STRIPE_GENERAL_PRODUCT_ID_DEV) {
-          await axios({
-            url: `${FUNCTION_BASE_URL}/products-handler`,
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            data: JSON.stringify(entity),
-          });
+          try {
+            await axios({
+              url: `${FUNCTION_BASE_URL}/products-handler`,
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              data: JSON.stringify(entity),
+            });
+          } catch (error) {
+            strapi.log.error(error);
+          }
         }
       }
     }
