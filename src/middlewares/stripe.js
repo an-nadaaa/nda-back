@@ -1,6 +1,7 @@
 // https://stripe.com/docs/webhooks/best-practices
 require("dotenv").config();
 const { default: axios } = require("axios");
+const sendToTelegram = require("../utils/sendMessageToTelegram");
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
 const endpointSecret =
   process.env.NODE_ENV === "production"
@@ -27,7 +28,6 @@ module.exports = (config, { strapi }) => {
           endpointSecret
         );
       } catch (err) {
-        // console.log("Error:", err);
         ctx.response.status = 400;
         ctx.body = JSON.stringify({
           status: 400,
@@ -38,123 +38,6 @@ module.exports = (config, { strapi }) => {
 
       // Handle the event
       switch (event.type) {
-        case "payment_intent.succeeded":
-          payment = event.data.object;
-          message = `
-          ✅ Payment Succeeded!
-💳 Payment ID: ${payment.id}
-💰 Amount: ${payment.currency.toUpperCase()} ${payment.amount / 100}
-🧾 Receipt URL: ${payment.charges.data[0].receipt_url}
-                    `;
-          await axios({
-            url: process.env.TELEGRAM_PUSH,
-            method: "POST",
-            headers: {
-              "Content-Type": "text/plain",
-            },
-            data: message,
-          });
-          break;
-        case "payment_intent.payment_failed":
-          payment = event.data.object;
-          message = `
-          ❌ Payment Failed!
-💳 Payment ID: ${payment.id}
-💰 Amount: ${payment.currency.toUpperCase()} ${payment.amount / 100}
-          `;
-          await axios({
-            url: process.env.TELEGRAM_PUSH,
-            method: "POST",
-            headers: {
-              "Content-Type": "text/plain",
-            },
-            data: message,
-          });
-          break;
-        case "payment_intent.canceled":
-          payment = event.data.object;
-          message = `
-          ❌ Payment Canceled!
-💳 Payment ID: ${payment.id}
-💰 Amount: ${payment.currency.toUpperCase()} ${payment.amount / 100}
-`;
-          await axios({
-            url: process.env.TELEGRAM_PUSH,
-            method: "POST",
-            headers: {
-              "Content-Type": "text/plain",
-            },
-            data: message,
-          });
-          break;
-        // case "payment_method.created":
-        //   payment = event.data.object;
-        //   break;
-        case "charge.refunded":
-          charge = event.data.object;
-          console.log(charge);
-          console.log(charge.refunds.data[0]);
-          message = `
-          ✅ Refund Succeeded!
-${charge.refunds.data.map(
-  (refund) => `
-💳 Refund ID: ${refund.id}
-💰 Amount: ${refund.currency.toUpperCase()} ${refund.amount / 100}
-✍️ Reason: ${refund.reason}
-`
-).join(`
-`)}
-🧾 Receipt URL: ${charge.receipt_url}
-          `;
-          await axios({
-            url: process.env.TELEGRAM_PUSH,
-            method: "POST",
-            headers: {
-              "Content-Type": "text/plain",
-            },
-            data: message,
-          });
-          break;
-        case "checkout.session.expired":
-          session = event.data.object;
-          // retrieve the product id from the session
-          const expiredSession = await stripe.checkout.sessions.retrieve(
-            session.id,
-            {
-              expand: ["line_items.data.price.product"],
-            }
-          );
-          message = `
-          ⌛️ Session Expired!
-      
-📧 Customer Email: ${session.customer_email}
-Customer Details:
-    📧 Email: ${session.customer_details.email}
-    ☎️ Phone: ${session.customer_details.phone}
-💰 Amount Donated: ${
-            session.amount_total / 100
-          } ${session.currency.toUpperCase()}
-Payment Intent ID: ${session.payment_intent}
-
-Donated to:
-${expiredSession.line_items.data.map((item) => {
-  return `
-${item.price.product.name}
-${item.price.product.images[0]}
-  `;
-}).join(`
-`)}
-                `;
-          // Then define and call a function to handle the event checkout.session.completed
-          await axios({
-            url: process.env.TELEGRAM_PUSH,
-            method: "POST",
-            headers: {
-              "Content-Type": "text/plain",
-            },
-            data: message,
-          });
-          break;
         case "checkout.session.completed":
           session = event.data.object;
           // retrieve the product id from the session
@@ -210,54 +93,8 @@ ${item.price.product.images[0]}
 `)}
                 `;
           // Then define and call a function to handle the event checkout.session.completed
-          await axios({
-            url: process.env.TELEGRAM_PUSH,
-            method: "POST",
-            headers: {
-              "Content-Type": "text/plain",
-            },
-            data: message,
-          });
+          await sendToTelegram(message, "donations");
           break;
-        case "product.created":
-          product = event.data.object;
-
-          message = `
-          ✅ Product Created!
-Product ID: ${product.id}
-Product Name: ${product.name}
-Product Description: ${product.description}
-${product.images[0]}
-`;
-          await axios({
-            url: process.env.TELEGRAM_PUSH,
-            method: "POST",
-            headers: {
-              "Content-Type": "text/plain",
-            },
-            data: message,
-          });
-          break;
-        case "product.deleted":
-          product = event.data.object;
-
-          message = `
-          ❌ Product Deleted!
-Product ID: ${product.id}
-Product Name: ${product.name}
-Product Description: ${product.description}
-${product.images[0]}
-`;
-          await axios({
-            url: process.env.TELEGRAM_PUSH,
-            method: "POST",
-            headers: {
-              "Content-Type": "text/plain",
-            },
-            data: message,
-          });
-          break;
-        // ... handle other event types
         default:
           strapi.log.info(`Unhandled event type ${event.type}`);
       }
