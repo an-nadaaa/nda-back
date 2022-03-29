@@ -1,9 +1,9 @@
 const sendToTelegram = require("./sendMessageToTelegram");
 
 module.exports = async (event) => {
-  strapi.log.debug("event", event);
-  strapi.log.debug("event.params", event.params);
-  strapi.log.debug("event.params.data", event.params.data);
+  strapi.log.debug(event);
+  strapi.log.debug(event.params);
+  strapi.log.debug(event.params.data);
   const unparsed = Symbol.for("unparsedBody");
   let message, updatedBy, ids, entity;
   if (event.params.data) {
