@@ -8,6 +8,7 @@ module.exports = ({ env }) => [
       includeUnparsed: true,
     },
   },
+  "global::prometheus-api-metrics",
   "global::stripe",
   "strapi::session",
   "strapi::favicon",

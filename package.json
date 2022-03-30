@@ -19,6 +19,8 @@
     "dotenv": "16.0.0",
     "pg": "8.7.3",
     "pg-connection-string": "^2.5.0",
+    "prom-client": "14.0.1",
+    "prometheus-api-metrics": "3.2.1",
     "strapi-provider-upload-aws-s3-advanced": "^4.0.5",
     "stripe": "^8.212.0"
   },
