@@ -4,7 +4,6 @@ const {
   winston,
   formats: { prettyPrint, levelFilter },
 } = require("@strapi/logger");
-const LokiTransport = require("winston-loki");
 const LogzioWinstonTransport = require("winston-logzio");
 
 module.exports = {
@@ -18,6 +17,12 @@ module.exports = {
               prettyPrint({ timestamps: "YYYY-MM-DD hh:mm:ss.SSS" })
             ),
           }),
+          new LogzioWinstonTransport({
+            level: "info",
+            name: "api_logzio",
+            token: process.env.LOGZIO_TOKEN,
+            host: "listener-eu.logz.io",
+          }),
         ]
       : [
           new winston.transports.Console({
@@ -26,16 +31,6 @@ module.exports = {
               levelFilter("http"),
               prettyPrint({ timestamps: "YYYY-MM-DD hh:mm:ss.SSS" })
             ),
-          }),
-          new LokiTransport({
-            host: process.env.LOGGER_HOST,
-            json: true,
-          }),
-          new LogzioWinstonTransport({
-            level: "info",
-            name: "api_logzio",
-            token: process.env.LOGZIO_TOKEN,
-            host: "listener-eu.logz.io",
           }),
         ],
 };
