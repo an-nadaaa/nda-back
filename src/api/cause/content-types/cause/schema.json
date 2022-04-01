@@ -118,6 +118,16 @@
       ],
       "required": true,
       "max": 1
+    },
+    "private": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "boolean",
+      "default": false,
+      "required": false
     }
   }
 }
