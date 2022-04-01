@@ -5,6 +5,7 @@ const {
   formats: { prettyPrint, levelFilter },
 } = require("@strapi/logger");
 const LokiTransport = require("winston-loki");
+const LogzioWinstonTransport = require("winston-logzio");
 
 module.exports = {
   transports:
@@ -29,6 +30,12 @@ module.exports = {
           new LokiTransport({
             host: process.env.LOGGER_HOST,
             json: true,
+          }),
+          new LogzioWinstonTransport({
+            level: "info",
+            name: "api_logzio",
+            token: process.env.LOGZIO_TOKEN,
+            host: "listener-eu.logz.io",
           }),
         ],
 };
