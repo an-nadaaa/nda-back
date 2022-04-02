@@ -88,7 +88,7 @@ jobs:
           project_id: teak-component-346005
           image_name: nda-back
           image_tag: latest
-          build_args: CDN_BASE_URL=${{ secrets.CDN_BASE_URL }},AWS_ACCESS_SECRET=${{ secrets.AWS_ACCESS_SECRET }},AWS_ENDPOINT=${{ secrets.AWS_ENDPOINT }},AWS_BUCKET=${{ secrets.AWS_BUCKET }},APP_KEYS='${{ secrets.APP_KEYS }}',PUBLIC_ADMIN_URL=${{ secrets.PUBLIC_ADMIN_URL }},ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET }}
+          build_args: CDN_BASE_URL=${{ secrets.CDN_BASE_URL }},AWS_ACCESS_SECRET=${{ secrets.AWS_ACCESS_SECRET }},AWS_ENDPOINT=${{ secrets.AWS_ENDPOINT }},AWS_BUCKET=${{ secrets.AWS_BUCKET }},APP_KEYS='${{ secrets.APP_KEYS }}',PUBLIC_ADMIN_URL=${{ secrets.PUBLIC_ADMIN_URL }},JWT_SECRET=${{ secrets.JWT_SECRET }}
   # Dokku:
   #   runs-on: ubuntu-latest
   #   steps:
