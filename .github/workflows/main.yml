@@ -98,16 +98,18 @@ jobs:
   #             image-name: nda-back # Provide Docker image name
   #             custom-args: --build-arg some=value --build-arg some_other=value # Pass some additional arguments to the docker build command
 
-  # Prune:
-  #   runs-on: ubuntu-latest
-  #   needs: ghcr
-  #   steps:
-  #     - name: Clean up Container Images
-  #       uses: frankdejonge/use-container-cleanup@0.1.0
-  #       with:
-  #         package: an-nadaaa/nda-back
-  #         versions: master
-  #         token: ${{ secrets.GITHUB_TOKEN }}
+  Prune:
+    runs-on: ubuntu-latest
+    needs: ghcr
+    steps:
+      - name: Prune
+        uses: vlaurin/action-ghcr-prune@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          organization: an-nadaaa
+          container: nda-back
+          keep-last: 1
+          untagged: true # prune untagged
   # Dokku:
   #   runs-on: ubuntu-latest
   #   steps:
