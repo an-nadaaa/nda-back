@@ -4,7 +4,8 @@
   "info": {
     "singularName": "nature",
     "pluralName": "natures",
-    "displayName": "Nature"
+    "displayName": "Nature",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -24,12 +25,6 @@
       "type": "string",
       "required": true,
       "unique": true
-    },
-    "campaigns": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::campaign.campaign",
-      "mappedBy": "natures"
     },
     "causes": {
       "type": "relation",

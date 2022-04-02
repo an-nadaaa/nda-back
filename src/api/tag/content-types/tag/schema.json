@@ -25,12 +25,6 @@
       "unique": true,
       "required": true
     },
-    "campaigns": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::campaign.campaign",
-      "mappedBy": "tags"
-    },
     "causes": {
       "type": "relation",
       "relation": "manyToMany",
