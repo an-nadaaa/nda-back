@@ -13,7 +13,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,7 +34,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           PUBLIC_ADMIN_URL: ${{ secrets.PUBLIC_ADMIN_URL }}
           ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
-          LOGZIO_TOKEN: ${{ secrets.LOGZIO_TOKEN }}
+          # LOGZIO_TOKEN: ${{ secrets.LOGZIO_TOKEN }}
           CDN_BASE_URL: ${{ secrets.CDN_BASE_URL }}
           AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
           AWS_ENDPOINT: ${{ secrets.AWS_ENDPOINT }}
@@ -56,7 +56,7 @@ jobs:
             @semantic-release/changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-  # # This workflow contains a single job called "GCR"
+  # # # This workflow contains a single job called "GCR"
   # GCR:
   #   # The type of runner that the job will run on
   #   runs-on: ubuntu-latest
@@ -65,12 +65,25 @@ jobs:
   #   steps:
   #     - uses: actions/checkout@v2
 
-  #     - name: Google Container Registry
+  #     - name: Push to Google Container Registry
   #       uses: docker/build-push-action@v1
   #       with:
   #         username: _json_key
   #         password: ${{ secrets.DOCKER_PASSWORD }}
   #         registry: asia.gcr.io
-  #         repository: ecf-test/ecf-back
+  #         repository: ecf-test/nda-back
   #         tags: latest
   #         dockerfile: Dockerfile
+  GCR:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: google-github-actions/setup-gcloud@master
+      - uses: RafikFarhad/push-to-gcr-github-action@v4
+        with:
+          gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+          registry: gcr.io
+          project_id: teak-component-346005
+          image_name: nda-back
+          image_tag: latest
+          build_args: CDN_BASE_URL=${{ secrets.CDN_BASE_URL }},AWS_ACCESS_SECRET=${{ secrets.AWS_ACCESS_SECRET }},AWS_ENDPOINT=${{ secrets.AWS_ENDPOINT }},AWS_BUCKET=${{ secrets.AWS_BUCKET }},APP_KEYS=${{ secrets.APP_KEYS }}
