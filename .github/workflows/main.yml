@@ -74,21 +74,50 @@ jobs:
   #         repository: ecf-test/nda-back
   #         tags: latest
   #         dockerfile: Dockerfile
-  GCR:
+  GHCR:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push'
+    if: github.event_name = 'push'
     steps:
-      - uses: actions/checkout@v2
-      - uses: google-github-actions/setup-gcloud@v0.6.0
-      - uses: RafikFarhad/push-to-gcr-github-action@v4
+      - name: Checkout repository
+        uses: actions/checkout@v2
         with:
-          gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
-          registry: gcr.io
-          project_id: teak-component-346005
-          image_name: nda-back
-          image_tag: latest
-          build_args: CDN_BASE_URL=${{ secrets.CDN_BASE_URL }},AWS_ACCESS_SECRET=${{ secrets.AWS_ACCESS_SECRET }},AWS_ENDPOINT=${{ secrets.AWS_ENDPOINT }},AWS_BUCKET=${{ secrets.AWS_BUCKET }},APP_KEYS='${{ secrets.APP_KEYS }}',PUBLIC_ADMIN_URL=${{ secrets.PUBLIC_ADMIN_URL }},JWT_SECRET=${{ secrets.JWT_SECRET }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build, Tag, Push to GHCR
+        uses: cresh-io/action-docker-image-build-tag-push@v1
+        with:
+          username: "${{ github.actor }}"
+          password: "${{ secrets.GITHUB_TOKEN }}"
+          image-name: "${{ github.repository }}"
+          github-sha: "${{ github.sha }}"
+          action: "${{ github.event.action }}"
+          merged: "${{ github.event.pull_request.merged }}"
+          build-args: |
+            NPM_TOKEN=${{ secrets.CI_NPM_TOKEN }}
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
+            PUBLIC_ADMIN_URL: ${{ secrets.PUBLIC_ADMIN_URL }}
+            ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
+            CDN_BASE_URL: ${{ secrets.CDN_BASE_URL }}
+            AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
+            AWS_ENDPOINT: ${{ secrets.AWS_ENDPOINT }}
+            AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
+            APP_KEYS: ${{ secrets.APP_KEYS }}
+  # GCR:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   if: github.event_name == 'push'
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: google-github-actions/setup-gcloud@v0.6.0
+  #     - uses: RafikFarhad/push-to-gcr-github-action@v4
+  #       with:
+  #         gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+  #         registry: gcr.io
+  #         project_id: teak-component-346005
+  #         image_name: nda-back
+  #         image_tag: latest
+  #         build_args: CDN_BASE_URL=${{ secrets.CDN_BASE_URL }},AWS_ACCESS_SECRET=${{ secrets.AWS_ACCESS_SECRET }},AWS_ENDPOINT=${{ secrets.AWS_ENDPOINT }},AWS_BUCKET=${{ secrets.AWS_BUCKET }},APP_KEYS='${{ secrets.APP_KEYS }}',PUBLIC_ADMIN_URL=${{ secrets.PUBLIC_ADMIN_URL }},JWT_SECRET=${{ secrets.JWT_SECRET }}
   # Dokku:
   #   runs-on: ubuntu-latest
   #   steps:
