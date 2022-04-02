@@ -55,7 +55,7 @@ jobs:
           extra_plugins: |
             @semantic-release/changelog
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # # # This workflow contains a single job called "GCR"
   # GCR:
   #   # The type of runner that the job will run on
