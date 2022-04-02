@@ -1,16 +1,19 @@
 {
   "name": "nda-back",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.0-development",
   "description": "An-nadaa backend api",
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "export NODE_ENV=production&& strapi build",
     "strapi": "strapi",
-    "deploy": "git push dokku master:master"
+    "deploy": "git push dokku master:master",
+    "semantic-release": "semantic-release"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "semantic-release": "^19.0.2"
+  },
   "dependencies": {
     "@strapi/plugin-i18n": "4.1.5",
     "@strapi/plugin-users-permissions": "4.1.5",
@@ -35,5 +38,9 @@
     "node": ">=12.x.x <=16.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gimyboya/nda-back.git"
+  }
 }
