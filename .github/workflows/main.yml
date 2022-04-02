@@ -76,14 +76,28 @@ jobs:
           action: "${{ github.event.action }}"
           merged: "${{ github.event.pull_request.merged }}"
           build-args: |
-            DATABASE_URL: ${{ secrets.DATABASE_URL }}
-            PUBLIC_ADMIN_URL: ${{ secrets.PUBLIC_ADMIN_URL }}
-            JWT_SECRET: ${{ secrets.JWT_SECRET }}
-            CDN_BASE_URL: ${{ secrets.CDN_BASE_URL }}
-            AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
-            AWS_ENDPOINT: ${{ secrets.AWS_ENDPOINT }}
-            AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
-            APP_KEYS: ${{ secrets.APP_KEYS }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            PUBLIC_ADMIN_URL=${{ secrets.PUBLIC_ADMIN_URL }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            CDN_BASE_URL=${{ secrets.CDN_BASE_URL }}
+            AWS_ACCESS_SECRET=${{ secrets.AWS_ACCESS_SECRET }}
+            AWS_ENDPOINT=${{ secrets.AWS_ENDPOINT }}
+            AWS_BUCKET=${{ secrets.AWS_BUCKET }}
+            APP_KEYS=${{ secrets.APP_KEYS }}
+  # build-with-custom-args:
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/master' # Running this job only for master branch
+
+  #   steps:
+  #       - uses: actions/checkout@v2 # Checking out the repo
+
+  #       - name: Build with --build-arg(s)
+  #         uses: VaultVulp/gp-docker-action@1.1.12
+  #         with:
+  #             github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
+  #             image-name: nda-back # Provide Docker image name
+  #             custom-args: --build-arg some=value --build-arg some_other=value # Pass some additional arguments to the docker build command
+
   # Prune:
   #   runs-on: ubuntu-latest
   #   needs: ghcr
@@ -107,22 +121,3 @@ jobs:
   #       with:
   #         git_remote_url: 'ssh://dokku@dokku.me:22/appname'
   #         ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-  # # # This workflow contains a single job called "GCR"
-  # GCR:
-  #   # The type of runner that the job will run on
-  #   runs-on: ubuntu-latest
-
-  #   # Steps represent a sequence of tasks that will be executed as part of the job
-  #   steps:
-  #     - uses: actions/checkout@v2
-
-  #     - name: Push to Google Container Registry
-  #       uses: docker/build-push-action@v1
-  #       with:
-  #         username: _json_key
-  #         password: ${{ secrets.DOCKER_PASSWORD }}
-  #         registry: asia.gcr.io
-  #         repository: ecf-test/nda-back
-  #         tags: latest
-  #         dockerfile: Dockerfile
