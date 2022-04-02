@@ -27,7 +27,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       # - run: npm install yarn
       - run: yarn install --frozen-lockfile
-      - run: echo "$DATABASE_URL"
+      - run: echo {{ env.DATABASE_URL }}
       - run: yarn build
         # - run: yarn test
         env:
