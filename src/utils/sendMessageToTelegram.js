@@ -9,7 +9,7 @@ module.exports = async (message, channel) => {
     case "editorial":
       // send message to telegram editorial channel
       await axios({
-        url: process.env.TELEGRAM_PUSH,
+        url: `${process.env.TELEGRAM_PUSH}?parse_mode=markdown`,
         method: "POST",
         headers: {
           "Content-Type": "text/plain",

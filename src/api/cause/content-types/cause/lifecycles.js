@@ -14,17 +14,14 @@ const FUNCTION_BASE_URL =
 module.exports = {
   async beforeCreate(event) {
     const { data } = event.params;
-    const { title, description } = await strapi.db
-      .query("causes.base-model")
-      .findOne({ id: data.base.id });
     if (data.cover) {
       const { url } = await strapi.plugins.upload.services.upload.findOne(
         data.cover
       );
       try {
         event.params.data.product = await generateStripeProductId(
-          title,
-          description,
+          data.title,
+          data.description,
           url,
           data.product,
           data.environment
@@ -38,8 +35,8 @@ module.exports = {
       // generate a stripe product and replace the default product property with the stripe product id
       try {
         event.params.data.product = await generateStripeProductId(
-          title,
-          description,
+          data.title,
+          data.description,
           undefined,
           data.product,
           data.environment
@@ -60,17 +57,14 @@ module.exports = {
       data.product === "PRODUCT_WILL_BE_CREATED"
     ) {
       let id;
-      const { title, description } = await strapi.db
-        .query("causes.base-model")
-        .findOne({ id: data.base.id });
       if (data.cover) {
         const { url } = await strapi.plugins.upload.services.upload.findOne(
           data.cover
         );
         try {
           id = await generateStripeProductId(
-            title,
-            description,
+            data.title,
+            data.description,
             url,
             data.product,
             data.environment
@@ -81,8 +75,8 @@ module.exports = {
       } else {
         try {
           id = await generateStripeProductId(
-            title,
-            description,
+            data.title,
+            data.description,
             undefined,
             data.product,
             data.environment

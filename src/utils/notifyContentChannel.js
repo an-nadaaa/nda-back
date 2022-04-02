@@ -19,8 +19,8 @@ module.exports = async (event) => {
             A new ${event.model.singularName} has been created!
 Environment: ${entity.environment}
 Updated By: ${updatedBy.email}
-Title: ${entity.base.title}
-Description: ${entity.base.description}
+Title: ${entity.title}
+Description: ${entity.description}
             `;
       break;
     case "afterUpdate":
@@ -35,8 +35,8 @@ Description: ${entity.base.description}
                         A ${event.model.singularName} has been Updated!
 Environment: ${entity.environment}
 Updated By: ${updatedBy.email}
-Title: ${entity.base.title}
-Description: ${entity.base.description}
+Title: ${entity.title}
+Description: ${entity.description}
                         `;
       } else {
         message = `
@@ -45,8 +45,8 @@ Environment: ${entity.environment}
 Updated By: ${updatedBy.email}
 ${ids.map(async (id) => {
   entity = await strapi.db.query(`${event.model.uid}`).findOne({ id });
-  return `Title: ${entity.base.title}
-Description: ${entity.base.description}
+  return `Title: ${entity.title}
+Description: ${entity.description}
     `;
 }).join(`
 `)}
