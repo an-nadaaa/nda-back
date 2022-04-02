@@ -63,7 +63,7 @@ jobs:
       - name: Clean up Container Images
         uses: frankdejonge/use-container-cleanup@0.1.0
         with:
-          package: nda-back
+          package: an-nadaaa/nda-back
           versions: master
           token: ${{ secrets.GITHUB_TOKEN }}
   # # # This workflow contains a single job called "GCR"
