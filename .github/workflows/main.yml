@@ -78,7 +78,7 @@ jobs:
           build-args: |
             DATABASE_URL: ${{ secrets.DATABASE_URL }}
             PUBLIC_ADMIN_URL: ${{ secrets.PUBLIC_ADMIN_URL }}
-            ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
+            JWT_SECRET: ${{ secrets.JWT_SECRET }}
             CDN_BASE_URL: ${{ secrets.CDN_BASE_URL }}
             AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
             AWS_ENDPOINT: ${{ secrets.AWS_ENDPOINT }}
