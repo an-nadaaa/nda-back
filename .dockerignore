@@ -1,4 +1,5 @@
 node_modules
+dokku.env
 .env
 .env.*
 .editorconfig
