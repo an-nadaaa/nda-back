@@ -84,16 +84,16 @@ jobs:
             AWS_ENDPOINT: ${{ secrets.AWS_ENDPOINT }}
             AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
             APP_KEYS: ${{ secrets.APP_KEYS }}
-  Prune:
-    runs-on: ubuntu-latest
-    needs: ghcr
-    steps:
-      - name: Clean up Container Images
-        uses: frankdejonge/use-container-cleanup@0.1.0
-        with:
-          package: an-nadaaa/nda-back
-          versions: master
-          token: ${{ secrets.GITHUB_TOKEN }}
+  # Prune:
+  #   runs-on: ubuntu-latest
+  #   needs: ghcr
+  #   steps:
+  #     - name: Clean up Container Images
+  #       uses: frankdejonge/use-container-cleanup@0.1.0
+  #       with:
+  #         package: an-nadaaa/nda-back
+  #         versions: master
+  #         token: ${{ secrets.GITHUB_TOKEN }}
   # Dokku:
   #   runs-on: ubuntu-latest
   #   steps:
