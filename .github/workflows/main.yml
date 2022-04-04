@@ -105,9 +105,9 @@ jobs:
       - name: Prune
         uses: vlaurin/action-ghcr-prune@main
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PRUNE_TOKEN }}
           organization: an-nadaaa
-          container: "${{ github.repository }}"
+          container: nda-back
           keep-last: 1
           untagged: true # prune untagged
   Dokku:
