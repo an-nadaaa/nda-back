@@ -84,20 +84,6 @@ jobs:
             AWS_ENDPOINT=${{ secrets.AWS_ENDPOINT }}
             AWS_BUCKET=${{ secrets.AWS_BUCKET }}
             APP_KEYS=${{ secrets.APP_KEYS }}
-  # build-with-custom-args:
-  #   runs-on: ubuntu-latest
-  #   if: github.ref == 'refs/heads/master' # Running this job only for master branch
-
-  #   steps:
-  #       - uses: actions/checkout@v2 # Checking out the repo
-
-  #       - name: Build with --build-arg(s)
-  #         uses: VaultVulp/gp-docker-action@1.1.12
-  #         with:
-  #             github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
-  #             image-name: nda-back # Provide Docker image name
-  #             custom-args: --build-arg some=value --build-arg some_other=value # Pass some additional arguments to the docker build command
-
   Prune:
     runs-on: ubuntu-latest
     needs: ghcr
@@ -108,19 +94,20 @@ jobs:
           token: ${{ secrets.PRUNE_TOKEN }}
           organization: an-nadaaa
           container: nda-back
+          tag-regex: ^master
           keep-last: 1
           untagged: true # prune untagged
-  Dokku:
-    runs-on: ubuntu-latest
-    needs: ghcr
-    steps:
-      - name: Cloning repo
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+  # Dokku:
+  #   runs-on: ubuntu-latest
+  #   needs: ghcr
+  #   steps:
+  #     - name: Cloning repo
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
 
-      - name: Push to dokku
-        uses: dokku/github-action@master
-        with:
-          git_remote_url: "ssh://dokku@api.an-nadaa.com:22/nda-back"
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+  #     - name: Push to dokku
+  #       uses: dokku/github-action@master
+  #       with:
+  #         git_remote_url: "ssh://dokku@api.an-nadaa.com:22/nda-back"
+  #         ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
