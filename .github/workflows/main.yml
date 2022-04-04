@@ -94,8 +94,7 @@ jobs:
           token: ${{ secrets.PRUNE_TOKEN }}
           organization: an-nadaaa
           container: nda-back
-          tag-regex: ^master
-          keep-last: 1
+          keep-tags-regexes: ^master
           untagged: true # prune untagged
   # Dokku:
   #   runs-on: ubuntu-latest
