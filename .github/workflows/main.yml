@@ -112,7 +112,7 @@ jobs:
           untagged: true # prune untagged
   Dokku:
     runs-on: ubuntu-latest
-    needs: gcr
+    needs: ghcr
     steps:
       - name: Cloning repo
         uses: actions/checkout@v2
