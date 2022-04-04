@@ -27,9 +27,7 @@
     "prom-client": "14.0.1",
     "prometheus-api-metrics": "3.2.1",
     "strapi-provider-upload-aws-s3-advanced": "^4.0.5",
-    "strip-ansi": "7.0.1",
-    "stripe": "^8.212.0",
-    "winston-logzio": "5.1.4"
+    "stripe": "^8.212.0"
   },
   "author": {
     "name": "A Strapi developer"
