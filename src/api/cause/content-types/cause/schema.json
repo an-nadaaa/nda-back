@@ -65,7 +65,7 @@
       "target": "api::tag.tag",
       "inversedBy": "causes"
     },
-    "nature": {
+    "category": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::nature.nature",

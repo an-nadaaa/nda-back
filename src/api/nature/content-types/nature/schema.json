@@ -30,7 +30,7 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::cause.cause",
-      "mappedBy": "nature"
+      "mappedBy": "category"
     }
   }
 }
