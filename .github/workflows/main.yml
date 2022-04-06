@@ -56,19 +56,6 @@ jobs:
             @semantic-release/changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  Prune:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Prune
-        uses: vlaurin/action-ghcr-prune@main
-        with:
-          token: ${{ secrets.PRUNE_TOKEN }}
-          organization: an-nadaaa
-          container: nda-back
-          tag-regex: ^master
-          keep-last: 1
-          untagged: true # prune untagged
   GHCR:
     runs-on: ubuntu-latest
     needs: prune
@@ -97,6 +84,19 @@ jobs:
             AWS_ENDPOINT=${{ secrets.AWS_ENDPOINT }}
             AWS_BUCKET=${{ secrets.AWS_BUCKET }}
             APP_KEYS=${{ secrets.APP_KEYS }}
+  Prune:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Prune
+        uses: vlaurin/action-ghcr-prune@main
+        with:
+          token: ${{ secrets.PRUNE_TOKEN }}
+          organization: an-nadaaa
+          container: nda-back
+          tag-regex: ^sha\-([a-f0-9]{7})
+          keep-last: 1
+          untagged: true # prune untagged
   # Dokku:
   #   runs-on: ubuntu-latest
   #   needs: ghcr

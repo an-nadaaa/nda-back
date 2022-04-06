@@ -18,8 +18,11 @@ module.exports = ({ env }) => ({
     config: {
       provider: {
         name: "memory",
+        // https://github.com/isaacs/node-lru-cache/tree/v6.0.0#options
         options: {
+          // The maximum size of the cache
           max: 32767,
+          // Maximum age in ms.
           maxAge: 3600,
         },
       },
