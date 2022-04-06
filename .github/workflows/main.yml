@@ -110,6 +110,8 @@ jobs:
           command: |
             echo ${{ env.CR_PAT }} | docker login ghcr.io -u ${{ env.USERNAME }} --password-stdin
             docker pull ghcr.io/an-nadaaa/nda-back:master
+            IMAGE_NAME=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/an-nadaaa/nda-back)
+            dokku git:from-image nda-back $IMAGE_NAME
           host: ${{ secrets.SSH_HOST }}
           user: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
