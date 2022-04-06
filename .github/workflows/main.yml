@@ -99,7 +99,7 @@ jobs:
           untagged: true # prune untagged
   Deploy:
     runs-on: ubuntu-latest
-    needs: ghcr
+    needs: prune
     steps:
       - name: Deploy to Dokku via SSH
         uses: fifsky/ssh-action@master
@@ -110,37 +110,10 @@ jobs:
           command: |
             echo ${{ env.CR_PAT }} | docker login ghcr.io -u ${{ env.USERNAME }} --password-stdin
             docker pull ghcr.io/an-nadaaa/nda-back:master
-            IMAGE_NAME=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/an-nadaaa/nda-back)
+            IMAGE_NAME=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/an-nadaaa/nda-back:master)
             dokku git:from-image nda-back $IMAGE_NAME
           host: ${{ secrets.SSH_HOST }}
           user: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           args: -t
-      # - name: executing remote ssh commands using ssh key
-      #   uses: appleboy/ssh-action@master
-      #   env:
-      #     CR_PAT: ${{ secrets.GITHUB_TOKEN }}
-      #     USERNAME: ${{ github.actor }}
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USERNAME }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     port: ${{ secrets.SSH_PORT }}
-      #     envs: CR_PAT,USERNAME
-      #     script: |
-      #       echo $CR_PAT | docker login ghcr.io -u $USERNAME --password-stdin
-  # Dokku:
-  #   runs-on: ubuntu-latest
-  #   needs: ghcr
-  #   steps:
-  #     - name: Cloning repo
-  #       uses: actions/checkout@v2
-  #       with:
-  #         fetch-depth: 0
-
-  #     - name: Push to dokku
-  #       uses: dokku/github-action@master
-  #       with:
-  #         git_remote_url: "ssh://dokku@api.an-nadaa.com:22/nda-back"
-  #         ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
