@@ -108,7 +108,7 @@ jobs:
           USERNAME: ${{ github.actor }}
         with:
           command: |
-            echo {{ env.CR_PAT}} | docker login ghcr.io -u {{ env.USERNAME }} --password-stdin
+            echo ${{ env.CR_PAT }} | docker login ghcr.io -u ${{ env.USERNAME }} --password-stdin
           host: ${{ secrets.SSH_HOST }}
           user: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
