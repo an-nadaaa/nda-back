@@ -104,11 +104,12 @@ jobs:
       - name: Deploy to Dokku via SSH
         uses: fifsky/ssh-action@master
         env:
-          CR_PAT: ${{ secrets.GITHUB_TOKEN }}
+          CR_PAT: ${{ secrets.GHCR_TOKEN }}
           USERNAME: ${{ github.actor }}
         with:
           command: |
             echo ${{ env.CR_PAT }} | docker login ghcr.io -u ${{ env.USERNAME }} --password-stdin
+            docker pull ghcr.io/an-nadaaa/nda-back:master
           host: ${{ secrets.SSH_HOST }}
           user: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
