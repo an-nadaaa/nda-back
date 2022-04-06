@@ -97,23 +97,36 @@ jobs:
           tag-regex: ^sha\-([a-f0-9]{7})
           keep-last: 1
           untagged: true # prune untagged
-  Dokku:
+  Deploy:
     runs-on: ubuntu-latest
     needs: ghcr
     steps:
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
+      - name: Deploy to Dokku via SSH
+        uses: fifsky/ssh-action@master
         env:
           CR_PAT: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.actor }}
         with:
+          command: |
+            echo {{ env.CR_PAT}} | docker login ghcr.io -u {{ env.USERNAME }} --password-stdin
           host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
+          user: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          envs: CR_PAT,USERNAME
-          script: |
-            echo $CR_PAT | docker login ghcr.io -u $USERNAME --password-stdin
+          args: -t
+      # - name: executing remote ssh commands using ssh key
+      #   uses: appleboy/ssh-action@master
+      #   env:
+      #     CR_PAT: ${{ secrets.GITHUB_TOKEN }}
+      #     USERNAME: ${{ github.actor }}
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USERNAME }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     port: ${{ secrets.SSH_PORT }}
+      #     envs: CR_PAT,USERNAME
+      #     script: |
+      #       echo $CR_PAT | docker login ghcr.io -u $USERNAME --password-stdin
   # Dokku:
   #   runs-on: ubuntu-latest
   #   needs: ghcr
