@@ -1,7 +1,6 @@
 const sendToTelegram = require("./sendMessageToTelegram");
 
 module.exports = async (event) => {
-  console.debug(event.result);
   const unparsed = Symbol.for("unparsedBody");
   let message, updatedBy, ids, entity;
   if (!event.params.data) {
