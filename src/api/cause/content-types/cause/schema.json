@@ -91,7 +91,7 @@
         "staging",
         "production"
       ],
-      "default": "development",
+      "default": "production",
       "required": true
     },
     "dynamicZone": {
