@@ -179,8 +179,8 @@ ${item.price.product.images[0]}
 
           📧 Customer Email: ${session.customer_email}
           Customer Details:
-            *📧 Email:* ${session.customer_details.email}
-            *☎️ Phone:* ${session.customer_details.phone}
+            📧 Email: ${session.customer_details.email}
+            ☎️ Phone: ${session.customer_details.phone}
           💰 Amount Donated: ${
             session.amount_total / 100
           } ${session.currency.toUpperCase()}
