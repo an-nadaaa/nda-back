@@ -55,15 +55,17 @@ module.exports = (config, { strapi }) => {
 
           💳 Payment ID: ${payment.id}
           💰 Amount: ${payment.currency.toUpperCase()} ${payment.amount / 100}
+          🌐 Link: https://dashboard.stripe.com/payments/${payment.id}
                     `);
           break;
         case "payment_intent.canceled":
           payment = event.data.object;
           message = dedent(`
-          ❌ Payment Canceled!
+          ❌ Payment Canceled By User!
 
           💳 Payment ID: ${payment.id}
           💰 Amount: ${payment.currency.toUpperCase()} ${payment.amount / 100}
+          🌐 Link: https://dashboard.stripe.com/payments/${payment.id}
           `);
           break;
         // case "payment_method.created":
