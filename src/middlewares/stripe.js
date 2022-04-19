@@ -13,6 +13,11 @@ const STRIPE_SK =
     ? process.env.STRIPE_SK_PROD
     : process.env.STRIPE_SK_DEV;
 
+const STRIPE_GENERAL_PRODUCT =
+  process.env.NODE_ENV === "production"
+    ? process.env.STRIPE_GENERAL_PRODUCT_ID_PROD
+    : process.env.STRIPE_GENERAL_PRODUCT_ID_DEV;
+
 const stripe = require("stripe")(STRIPE_SK);
 const unparsed = Symbol.for("unparsedBody");
 
@@ -91,12 +96,26 @@ module.exports = (config, { strapi }) => {
         case "checkout.session.expired":
           session = event.data.object;
           // retrieve the product id from the session
-          const expiredSession = await stripe.checkout.sessions.retrieve(
-            session.id,
-            {
-              expand: ["line_items.data.price.product"],
-            }
-          );
+          let expiredSession = null;
+          try {
+            expiredSession = await stripe.checkout.sessions.retrieve(
+              session.id,
+              {
+                expand: ["line_items.data.price.product"],
+              }
+            );
+          } catch (error) {
+            ctx.response.status = 500;
+            ctx.body = JSON.stringify({
+              data: null,
+              error: {
+                name: "EntityNotFoundError",
+                message: "Can not find the session",
+                code: 500,
+              },
+            });
+            return;
+          }
           message = dedent(`
           ⌛️ Session Expired!
 
@@ -109,15 +128,19 @@ module.exports = (config, { strapi }) => {
           } ${session.currency.toUpperCase()}
           Payment Intent ID: ${session.payment_intent}
 
-          Donated to:
-          ${expiredSession.line_items.data
-            .map((item) => {
-              return `
+          ${
+            expiredSession
+              ? `Donated to:
+${expiredSession.line_items.data
+  .map((item) => {
+    return `
 ${item.price.product.name}
 ${item.price.product.images[0]}
-            `;
-            })
-            .join("\n")}
+  `;
+  })
+  .join("\n")}`
+              : ""
+          }
                           `);
           break;
         case "checkout.session.completed":
@@ -134,12 +157,15 @@ ${item.price.product.images[0]}
             const amount = item.price.unit_amount / 100;
             const productId = item.price.product.id;
             // query the cause where the product id matches the product id
-            let cause = await strapi.db.query("api::cause.cause").findOne({
-              where: { product: productId },
-              populate: {
-                dynamicZone: true,
-              },
-            });
+            let cause = null;
+            if (productId !== STRIPE_GENERAL_PRODUCT) {
+              cause = await strapi.db.query("api::cause.cause").findOne({
+                where: { product: productId },
+                populate: {
+                  dynamicZone: true,
+                },
+              });
+            }
             // https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/query-engine/single-operations.html#update
             if (cause) {
               try {
