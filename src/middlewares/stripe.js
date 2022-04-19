@@ -46,6 +46,7 @@ module.exports = (config, { strapi }) => {
           💳 Payment ID: ${payment.id}
           💰 Amount: ${payment.currency.toUpperCase()} ${payment.amount / 100}
           🧾 Receipt URL: ${payment.charges.data[0].receipt_url}
+          🌐 Link: https://dashboard.stripe.com/payments/${payment.id}
                               `);
           break;
         case "payment_intent.payment_failed":
