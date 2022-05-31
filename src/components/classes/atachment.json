@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_classes_atachments",
+  "info": {
+    "displayName": "Atachment",
+    "icon": "paperclip",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "attachment": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_classes_classes",
+  "info": {
+    "displayName": "Class",
+    "icon": "play-circle"
+  },
+  "options": {},
+  "attributes": {
+    "number": {
+      "type": "float",
+      "required": true,
+      "default": 1
+    },
+    "class": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::class.class"
+    }
+  }
+}

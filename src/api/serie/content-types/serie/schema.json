@@ -1,0 +1,87 @@
+{
+  "kind": "collectionType",
+  "collectionName": "series",
+  "info": {
+    "singularName": "serie",
+    "pluralName": "series",
+    "displayName": "Serie",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "description": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "text"
+    },
+    "start": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "date"
+    },
+    "topics": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::topic.topic",
+      "inversedBy": "series"
+    },
+    "attachments": {
+      "displayName": "Atachment",
+      "type": "component",
+      "repeatable": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "classes.atachment"
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "classes": {
+      "displayName": "Class",
+      "type": "component",
+      "repeatable": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "classes.class"
+    }
+  }
+}

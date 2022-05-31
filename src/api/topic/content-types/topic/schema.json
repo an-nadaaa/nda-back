@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "topics",
+  "info": {
+    "singularName": "topic",
+    "pluralName": "topics",
+    "displayName": "Topic"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "name": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "required": true
+    },
+    "series": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::serie.serie",
+      "mappedBy": "topics"
+    },
+    "classes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::class.class",
+      "inversedBy": "topics"
+    }
+  }
+}
