@@ -24,9 +24,9 @@ const removeAnsi = (module.exports =
     : {
         transports: [
           new winston.transports.Console({
-            level: "http",
+            level: "silly",
             format: winston.format.combine(
-              levelFilter("http"),
+              levelFilter("silly"),
               prettyPrint({ timestamps: "YYYY-MM-DD hh:mm:ss.SSS" })
             ),
           }),

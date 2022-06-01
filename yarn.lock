@@ -12403,10 +12403,10 @@ strapi-provider-rest-cache-memory@4.2.4:
   dependencies:
     cache-manager "^3.6.0"
 
-strapi-provider-upload-aws-s3-advanced@^4.0.5:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/strapi-provider-upload-aws-s3-advanced/-/strapi-provider-upload-aws-s3-advanced-4.2.0.tgz#bcc63cc944ffc399f334d66878e7faff0bfb8190"
-  integrity sha512-fgxpQ6SQA+0Zk91lVYIf5QsL8XDWVnD7kk8km/kKhcfo/nMD4xj2DnVVtPi9v7ei+3iHnH6pXwlNbuEqGeMHzA==
+strapi-provider-upload-aws-s3-advanced@4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/strapi-provider-upload-aws-s3-advanced/-/strapi-provider-upload-aws-s3-advanced-4.2.1.tgz#4bdce061cff18aac185a898e4744748c75019cb8"
+  integrity sha512-HoWiIjsaaN9wgV6PZaoe+xP4sLzeVZqfYxVJ7lSCJEkNmPNEXiutSxorI0+m5/pUC4Sf+3Y0UjcUOY+1VDniLQ==
   dependencies:
     "@aws-sdk/client-s3" "^3.43.0"
 

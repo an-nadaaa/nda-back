@@ -29,7 +29,7 @@
     "prometheus-api-metrics": "3.2.1",
     "strapi-plugin-rest-cache": "4.2.4",
     "strapi-provider-rest-cache-memory": "4.2.4",
-    "strapi-provider-upload-aws-s3-advanced": "^4.0.5",
+    "strapi-provider-upload-aws-s3-advanced": "4.2.1",
     "stripe": "^8.212.0"
   },
   "author": {
