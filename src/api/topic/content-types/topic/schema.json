@@ -34,7 +34,7 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::class.class",
-      "inversedBy": "topics"
+      "mappedBy": "topics"
     }
   }
 }
