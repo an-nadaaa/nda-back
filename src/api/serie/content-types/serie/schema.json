@@ -73,15 +73,10 @@
       }
     },
     "classes": {
-      "displayName": "Class",
-      "type": "component",
-      "repeatable": true,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "component": "classes.class"
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::class.class",
+      "mappedBy": "serie"
     }
   }
 }

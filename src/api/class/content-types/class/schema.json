@@ -31,7 +31,8 @@
           "localized": true
         }
       },
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "cover": {
       "type": "media",
@@ -87,6 +88,12 @@
         }
       },
       "component": "classes.atachment"
+    },
+    "serie": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::serie.serie",
+      "inversedBy": "classes"
     }
   }
 }
